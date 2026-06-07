@@ -1,0 +1,285 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Standard Crisp Whites & Cool Grays (Slates) */
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-150: #eef2f6;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+
+  --color-white: #ffffff;
+
+  /* Blue (Biru) */
+  --color-sky-50: #ebf3fa;         
+  --color-sky-100: #d6e7f5;
+  --color-sky-200: #adcdea;
+  --color-sky-500: #1f6fa5;
+  --color-sky-650: #104c81;        
+  --color-sky-600: #104c81;        /* Solid Classic Royal Blue */
+  --color-sky-700: #0a355b;
+  --color-sky-800: #06233d;
+  --color-sky-900: #03111f;
+
+  /* Red (Merah) */
+  --color-indigo-50: #fdf1f1;      
+  --color-indigo-100: #fce2e2;
+  --color-indigo-200: #fbc2c2;
+  --color-indigo-500: #e22d3e;
+  --color-indigo-600: #d11a2a;     /* Solid Bold Red */
+  --color-indigo-700: #99131e;
+  --color-indigo-800: #660d14;
+  --color-indigo-900: #33060a;
+
+  /* Redefine Emerald (Green) & Rose to conform strictly to our Red & Blue palette */
+  --color-emerald-50: #ebf3fa;
+  --color-emerald-100: #d6e7f5;
+  --color-emerald-500: #1f6fa5;
+  --color-emerald-600: #104c81;    /* Map to Classic Blue */
+  --color-emerald-700: #0a355b;
+
+  --color-rose-50: #fdf1f1;
+  --color-rose-100: #fce2e2;
+  --color-rose-500: #e22d3e;
+  --color-rose-600: #d11a2a;       /* Map to Bold Red */
+  --color-rose-700: #99131e;
+}
+
+/* Redefine dark mode class selector manually for Tailwind CSS v4 */
+@variant dark (&:where(.dark, .dark *));
+
+/* Smooth transition for theme switching */
+*, *::before, *::after {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom Webkit scrollbar for receipt and scrollable panels */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 10s linear infinite;
+}
+
+/* Print simulation for receipts */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #receipt-print-area, #receipt-print-area * {
+    visibility: visible;
+  }
+  #receipt-print-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+  }
+}
+
+/* Global Manual Dark Mode Overrides for Embedded Subcomponents */
+.dark body {
+  background-color: #090d16 !important;
+  color: #eaeef6 !important;
+}
+
+.dark .bg-white {
+  background-color: #111a2e !important; /* Rich Dark Charcoal Navy */
+  color: #eaeef6 !important;
+}
+
+.dark .bg-slate-50 {
+  background-color: #0a0f1d !important;
+}
+
+.dark .bg-slate-50\/50 {
+  background-color: rgba(10, 15, 29, 0.5) !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #1e294b !important;
+}
+
+.dark .bg-sky-50\/50 {
+  background-color: rgba(14, 165, 233, 0.08) !important;
+}
+
+.dark .bg-sky-100 {
+  background-color: #075985 !important;
+  color: #e0f2fe !important;
+}
+
+.dark .bg-sky-50 {
+  background-color: rgba(14, 165, 233, 0.15) !important;
+}
+
+.dark .bg-indigo-50 {
+  background-color: rgba(99, 102, 241, 0.15) !important;
+}
+
+.dark .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+.dark .bg-emerald-100 {
+  background-color: #065f46 !important;
+  color: #d1fae5 !important;
+}
+
+.dark .bg-rose-50 {
+  background-color: rgba(244, 63, 94, 0.15) !important;
+}
+
+.dark .bg-rose-100 {
+  background-color: #9f1239 !important;
+  color: #ffe4e6 !important;
+}
+
+/* Hover styles in dark mode */
+.dark .hover\:bg-slate-50:hover, 
+.dark .hover\:bg-slate-50\/50:hover {
+  background-color: #1b253b !important;
+}
+
+.dark .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #1e293b !important;
+}
+
+/* Borders in dark mode */
+.dark .border-slate-100, 
+.dark .border-slate-150, 
+.dark .border-slate-200,
+.dark .border-sky-100 {
+  border-color: #1e293b !important;
+}
+
+/* High-emphasis header / title color */
+.dark .text-slate-800,
+.dark .text-slate-900,
+.dark h1, .dark h2, .dark h3, .dark h4 {
+  color: #f1f5f9 !important;
+}
+
+/* Standard readable body text */
+.dark .text-slate-700,
+.dark .text-slate-600 {
+  color: #cbd5e1 !important;
+}
+
+/* Secondary / muted text labels */
+.dark .text-slate-500,
+.dark .text-slate-450,
+.dark .text-slate-400 {
+  color: #8294b0 !important;
+}
+
+/* Accent texts */
+.dark .text-sky-600 {
+  color: #38bdf8 !important;
+}
+
+.dark .text-indigo-650, .dark .text-indigo-600 {
+  color: #818cf8 !important;
+}
+
+.dark .text-emerald-600 {
+  color: #34d399 !important;
+}
+
+.dark .text-rose-600 {
+  color: #fb7185 !important;
+}
+
+/* Table Header block */
+.dark thead tr.bg-slate-50\/50, 
+.dark thead tr.bg-slate-50, 
+.dark thead tr.bg-slate-100 {
+  background-color: #151f38 !important;
+}
+
+.dark thead th {
+  color: #8294b0 !important;
+}
+
+/* Interactive Input Elements */
+.dark input[type="text"], 
+.dark input[type="date"], 
+.dark input[type="number"], 
+.dark select, 
+.dark textarea {
+  background-color: #0c1224 !important;
+  color: #f1f5f9 !important;
+  border: 1px solid #1e294b !important;
+}
+
+.dark input[type="text"]:focus, 
+.dark input[type="date"]:focus, 
+.dark input[type="number"]:focus, 
+.dark select:focus, 
+.dark textarea:focus {
+  border-color: #0ea5e9 !important;
+  --tw-ring-color: rgba(14, 165, 233, 0.3) !important;
+}
+
+.dark select option {
+  background-color: #111a30 !important;
+  color: #f1f5f9 !important;
+}
+
+/* Dialog Modals overlay bg mapping */
+.dark .bg-slate-900\/40 {
+  background-color: rgba(2, 4, 8, 0.7) !important;
+}
+
+/* Receipt container / Modal printable sheet */
+.dark .bg-amber-50\/40 {
+  background-color: rgba(245, 158, 11, 0.08) !important;
+}
+
+.dark .text-amber-800 {
+  color: #fbbf24 !important;
+}
