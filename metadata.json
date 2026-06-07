@@ -1,0 +1,6 @@
+{
+  "name": "SIPES - Sistem Pembayaran Sekolah",
+  "description": "Aplikasi Penerimaan Pembayaran Uang Sekolah (SPP & UPP) terintegrasi dengan Google Spreadsheet melalui Google Apps Script Web API. Dilengkapi dashboard interaktif, manajemen siswa, tarif kustom, penagihan, transaksi keranjang multi-tagihan, cetak kwitansi, laporan dinamis, ekspor excel, dan log konsol API.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
