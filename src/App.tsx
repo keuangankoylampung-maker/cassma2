@@ -41,6 +41,37 @@ export default function App() {
   // Deep link support from dashboard to payment checkout
   const [selectedPaymentNis, setSelectedPaymentNis] = useState<string>('');
 
+  // Google Spreadsheet & Apps Script Connection States
+  const [sheetUrl, setSheetUrl] = useState<string>(() => {
+    return localStorage.getItem('sps_sheet_url') || 'https://docs.google.com/spreadsheets/d/1XyZABC123_your_google_spreadsheet_id/edit';
+  });
+  const [appsScriptUrl, setAppsScriptUrl] = useState<string>(() => {
+    return localStorage.getItem('sps_apps_script_url') || '';
+  });
+  const [sheetStatus, setSheetStatus] = useState<'connected' | 'disconnected' | 'connecting'>(() => {
+    return (localStorage.getItem('sps_sheet_status') as 'connected' | 'disconnected' | 'connecting') || 'disconnected';
+  });
+  const [sheetName, setSheetName] = useState<string>(() => {
+    return localStorage.getItem('sps_sheet_name') || 'SPS_EParent_Database';
+  });
+
+  // Persist spreadsheet state
+  useEffect(() => {
+    localStorage.setItem('sps_sheet_url', sheetUrl);
+  }, [sheetUrl]);
+
+  useEffect(() => {
+    localStorage.setItem('sps_apps_script_url', appsScriptUrl);
+  }, [appsScriptUrl]);
+
+  useEffect(() => {
+    localStorage.setItem('sps_sheet_status', sheetStatus);
+  }, [sheetStatus]);
+
+  useEffect(() => {
+    localStorage.setItem('sps_sheet_name', sheetName);
+  }, [sheetName]);
+
   // Toggle dark/light class on document element
   useEffect(() => {
     if (theme === 'dark') {
@@ -544,11 +575,23 @@ export default function App() {
               </select>
             </div>
 
-            {/* Simulated Live Connection indicators */}
-            <div className="bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 px-3 py-1.5 rounded-xl border border-emerald-100 dark:border-emerald-900/50 font-bold hidden sm:flex items-center gap-1.5 text-[10px]">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-              SPREADSHEET LIVE CONNECTED
-            </div>
+            {/* Dynamic Spreadsheet Connection indicators */}
+            {sheetStatus === 'connected' ? (
+              <div className="bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-400 px-3 py-1.5 rounded-xl border border-sky-100 dark:border-sky-900/50 font-bold hidden sm:flex items-center gap-1.5 text-[10px]">
+                <span className="w-2 h-2 rounded-full bg-sky-500 animate-ping"></span>
+                SPREADSHEET: {sheetName.toUpperCase()}
+              </div>
+            ) : sheetStatus === 'connecting' ? (
+              <div className="bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-400 px-3 py-1.5 rounded-xl border border-indigo-100 dark:border-indigo-900/50 font-bold hidden sm:flex items-center gap-1.5 text-[10px] animate-pulse">
+                <span className="w-2 h-2 rounded-full bg-indigo-500"></span>
+                MENYAMBUNGKAN SPREADSHEET...
+              </div>
+            ) : (
+              <div className="bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-700 font-bold hidden sm:flex items-center gap-1.5 text-[10px]">
+                <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                MODE SIMULATOR OFFLINE
+              </div>
+            )}
           </div>
         </header>
 
@@ -643,7 +686,20 @@ export default function App() {
             />
           )}
 
-          {activeTab === 'gas' && <GasIntegration />}
+          {activeTab === 'gas' && (
+            <GasIntegration 
+              sheetUrl={sheetUrl}
+              setSheetUrl={setSheetUrl}
+              appsScriptUrl={appsScriptUrl}
+              setAppsScriptUrl={setAppsScriptUrl}
+              sheetStatus={sheetStatus}
+              setSheetStatus={setSheetStatus}
+              sheetName={sheetName}
+              setSheetName={setSheetName}
+              db={db}
+              writeDb={writeDb}
+            />
+          )}
         </main>
 
         {/* WORKSPACE MAIN FOOTER */}
